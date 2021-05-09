@@ -45,7 +45,7 @@ const public = config.public
 const imagenye = JSON.parse(fs.readFileSync('./database/image.json'))
 
 conn.connect()
-const client = conn.client
+const vinicius = conn.vinicius
 
 const sleep = async (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms))
@@ -56,24 +56,24 @@ prefix = '!'
 apikey = 'LindowApi'
 hit_today = []
 
-client.on('CB:action,,call', async json => {
+vinicius.on('CB:action,,call', async json => {
     const callerId = json[2][0][1].from;
     console.log("[BLOCK]"+ callerId)
-        client.sendMessage(callerId, "Não Ligue para Mim, sou um bot", MessageType.text)
+        vinicius.sendMessage(callerId, "Não Ligue para Mim, sou um bot", MessageType.text)
         await sleep(4000)
-        await client.blockUser(callerId, "add")
+        await vinicius.blockUser(callerId, "add")
 })
 
-client.on('group-participants-update', async(chat) => {
+vinicius.on('group-participants-update', async(chat) => {
     try {
         var member = chat.participants
         for (var x of member) {
             try {
-                if (x == client.user.jid) return
+                if (x == vinicius.user.jid) return
                 var photo = await wa.getPictProfile(x)
                 var username = await wa.getUserName(x) || "Guest"
                 var from = chat.jid
-                var group = await client.groupMetadata(from)
+                var group = await vinicius.groupMetadata(from)
                 if (chat.action == 'add' && public) {
                      text = `${username}, Bem Vindo ${group.subject}!`
                         wa.sendImage(from, photo, text)
@@ -91,7 +91,7 @@ client.on('group-participants-update', async(chat) => {
     }
 })
 
-client.on('chat-update', async(lin) => {
+vinicius.on('chat-update', async(lin) => {
     try {
         if (!lin.hasNewMessage) return
         if (!lin.messages) return
@@ -121,26 +121,26 @@ client.on('chat-update', async(lin) => {
         }
 
         const reply = async(teks) => {
-            await client.sendMessage(from, teks, MessageType.text, { quoted: lin })
+            await vinicius.sendMessage(from, teks, MessageType.text, { quoted: lin })
         }
 
         const command = comm
         hit_today.push(command)
         const args = body.trim().split(/ +/).slice(1)
         const isCmd = cmd
-        const meNumber = client.user.jid
-        const botNumber = client.user.jid.split("@")[0]
+        const meNumber = vinicius.user.jid
+        const botNumber = vinicius.user.jid.split("@")[0]
         const isGroup = from.endsWith('@g.us')
         const arg = chats.slice(command.length + 2, chats.length)
-        const sender = lin.key.fromMe ? client.user.jid : isGroup ? lin.participant : lin.key.remoteJid
+        const sender = lin.key.fromMe ? vinicius.user.jid : isGroup ? lin.participant : lin.key.remoteJid
         const senderNumber = sender.split("@")[0]
-        const groupMetadata = isGroup ? await client.groupMetadata(from) : ''
+        const groupMetadata = isGroup ? await vinicius.groupMetadata(from) : ''
         const groupName = isGroup ? groupMetadata.subject : ''
         const groupMembers = isGroup ? groupMetadata.participants : ''
         const groupAdmins = isGroup ? await wa.getGroupAdmins(groupMembers) : []
         const isAdmin = groupAdmins.includes(sender) || false
-        const botAdmin = groupAdmins.includes(client.user.jid)
-        const totalChat = client.chats.all()
+        const botAdmin = groupAdmins.includes(vinicius.user.jid)
+        const totalChat = vinicius.chats.all()
         const itsMe = senderNumber == botNumber
         const isOwner = senderNumber == owner || senderNumber == botNumber || mods.includes(senderNumber)
         const mentionByTag = type == "extendedTextMessage" && lin.message.extendedTextMessage.contextInfo != null ? lin.message.extendedTextMessage.contextInfo.mentionedJid : []
@@ -149,7 +149,7 @@ client.on('chat-update', async(lin) => {
         mention != undefined ? mention.push(mentionByReply) : []
         const mentionUser = mention != undefined ? mention.filter(n => n) : []
         const mentions = (teks, memberr, id) => {
-	    (id == null || id == undefined || id == false) ? client.sendMessage(from, teks.trim(), extendedText, {contextInfo: {"mentionedJid": memberr}}) : client.sendMessage(from, teks.trim(), extendedText, {quoted: lin, contextInfo: {"mentionedJid": memberr}})}
+	    (id == null || id == undefined || id == false) ? vinicius.sendMessage(from, teks.trim(), extendedText, {contextInfo: {"mentionedJid": memberr}}) : vinicius.sendMessage(from, teks.trim(), extendedText, {quoted: lin, contextInfo: {"mentionedJid": memberr}})}
         const isImage = type == 'imageMessage'
         const isVideo = type == 'videoMessage'
         const isAudio = type == 'audioMessage'
@@ -250,37 +250,37 @@ API: https://api-gdr.herokuapp.com
                 yt = await axios.get(`https://api-gdr.herokuapp.com/api/yta?url=${body.slice(7)}`)
                 var { ext, filesize, result, thumb, title } = yt.data
                 foto = await getBuffer(thumb)
-                if (Number(filesize.split(' MB')[0]) >= 30.00) return client.sendMessage(from, foto, MessageType.image, {caption: `Title : ${title}\n\nExt : ${ext}\nLink : ${result}\n\nPassou de 30mb n baixo, é podcast?`})
+                if (Number(filesize.split(' MB')[0]) >= 30.00) return vinicius.sendMessage(from, foto, MessageType.image, {caption: `Title : ${title}\n\nExt : ${ext}\nLink : ${result}\n\nPassou de 30mb n baixo, é podcast?`})
                 cap = `Ytmp3 downloader\n\nTitle : ${title}\n\nExt : ${ext}\n\nFilesize : ${filesize}`
-                client.sendMessage(from, foto, MessageType.image, {caption: cap})
+                vinicius.sendMessage(from, foto, MessageType.image, {caption: cap})
                 au = await getBuffer(result)
-                client.sendMessage(from, au, MessageType.audio, {mimetype: 'audio/mp4', filename: `${title}.mp3`, quoted: lin})
+                vinicius.sendMessage(from, au, MessageType.audio, {mimetype: 'audio/mp4', filename: `${title}.mp3`, quoted: lin})
                 break
             case 'play':
                 yta = await axios.get(`https://api.zeks.xyz/api/ytplaymp3?apikey=apivinz&q=${body.slice(6)}`)
                 var { size, url_audio, thumbnail, title } = yta.data
                 foto = await getBuffer(thumbnail)
                 cap = `YT PLAY downloader\n\nTitulo : ${title}\nTamanho : ${size}`
-                client.sendMessage(from, foto, MessageType.image, {caption: cap})
+                vinicius.sendMessage(from, foto, MessageType.image, {caption: cap})
                 au = await getBuffer(url_audio)
-                client.sendMessage(from, au, MessageType.audio, {mimetype: 'audio/mp4', filename: `${title}.mp3`, quoted: lin})
+                vinicius.sendMessage(from, au, MessageType.audio, {mimetype: 'audio/mp4', filename: `${title}.mp3`, quoted: lin})
                 break
             case 'ytmp4':
                 yt = await axios.get(`https://api-gdr.herokuapp.com/api/ytv?url=${body.slice(7)}`)
                 var { ext, filesize, result, thumb, title } = yt.data
                 foto = await getBuffer(thumb)
-                if (Number(filesize.split(' MB')[0]) >= 30.00) return client.sendMessage(from, foto, MessageType.image, {caption: `Title : ${title}\n\nExt : ${ext}\n\n\nLink : ${result}\n\nMto Grande! Baixe Manual`})
+                if (Number(filesize.split(' MB')[0]) >= 30.00) return vinicius.sendMessage(from, foto, MessageType.image, {caption: `Title : ${title}\n\nExt : ${ext}\n\n\nLink : ${result}\n\nMto Grande! Baixe Manual`})
                 cap = `YTMP4 DOWNLOADER\n\nTitulo : ${title}\n\nTipo : ${ext}\n\nTamanho : ${filesize}`
-                client.sendMessage(from, foto, MessageType.image, {caption: cap})
+                vinicius.sendMessage(from, foto, MessageType.image, {caption: cap})
                 au = await getBuffer(result)
-                client.sendMessage(from, au, MessageType.video, {mimetype: 'video/mp4', filename: `${title}.mp4`, quoted: lin, caption: `${title}`})
+                vinicius.sendMessage(from, au, MessageType.video, {mimetype: 'video/mp4', filename: `${title}.mp4`, quoted: lin, caption: `${title}`})
                 break
             case 'igstalk':
                 anu = await axios.get(`https://api-gdr.herokuapp.com/api/stalk?username=${body.slice(9)}`)
                 var { Biodata, Jumlah_Followers, Jumlah_Following, Jumlah_Post, name, Profile_pic } = anu.data
                 imgig = await getBuffer(Profile_pic)
                 text = `IG STALKER\n\nNome: ${name}\nTem ${Jumlah_Following} Seguindo\nSegue ${Jumlah_Followers}\nTem ${Jumlah_Post}\nBIO: ${Biodata}`
-                client.sendMessage(from, imgig, MessageType.imagen, {caption: text})
+                vinicius.sendMessage(from, imgig, MessageType.imagen, {caption: text})
                 break
             case 'wikipedia':
                 q = body.slice(11)
@@ -307,12 +307,12 @@ API: https://api-gdr.herokuapp.com
 		teks += `- ${awokwkwk}\n`
 		}
 		teks += `\n*Total : ${imagenye.length}*`
-		client.sendMessage(from, teks.trim(), extendedText, { quoted: lin, contextInfo: { "mentionedJid": imagenye } })
+		vinicius.sendMessage(from, teks.trim(), extendedText, { quoted: lin, contextInfo: { "mentionedJid": imagenye } })
 		break
             case 'pegarimagem':
 		namastc = body.slice(10)
 		buffer = fs.readFileSync(`./lib/image/${namastc}.jpeg`)
-		client.sendMessage(from, buffer, MessageType.image, {quoted: {
+		vinicius.sendMessage(from, buffer, MessageType.image, {quoted: {
                     key: {
                         fromMe: false, participant: `0@s.whatsapp.net`, ...(from ? {
                         remoteJid: "status@broadcast"
@@ -324,7 +324,7 @@ API: https://api-gdr.herokuapp.com
 	        svst = body.slice(10)
 		if (!svst) return reply('bota um nome na img!')
 	        boij = JSON.parse(JSON.stringify(lin).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
-                delb = await client.downloadMediaMessage(boij)
+                delb = await vinicius.downloadMediaMessage(boij)
 		imagenye.push(`${svst}`)
 	        fs.writeFileSync(`./lib/image/${svst}.jpeg`, delb)
 		fs.writeFileSync('./database/image.json', JSON.stringify(imagenye))
@@ -335,7 +335,7 @@ API: https://api-gdr.herokuapp.com
 		const pembawm = body.slice(11)
 		if (!pembawm.includes('|')) return reply(`Reply sticker dengan caption *${prefix}takestick nama|author*`)
                 const encmedia = JSON.parse(JSON.stringify(lin).replace('quotedM','m')).message.extendedTextMessage.contextInfo
-                const media = await client.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
+                const media = await vinicius.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
 		const packname = pembawm.split('|')[0]
 	        const author = pembawm.split('|')[1]
 		    exif.create(packname, author, `takestick_${sender}`)
@@ -351,21 +351,21 @@ API: https://api-gdr.herokuapp.com
                 var res = await axios.get(`https://lindow-api.herokuapp.com/api/dlsoundcloud?url=${url}&apikey=${apikey}`)
                 var { title, result } = res.data
                 thumbb = await getBuffer(`${res.data.image}`)
-                client.sendMessage(from, thumbb, MessageType.image, {caption: `${title}`})
+                vinicius.sendMessage(from, thumbb, MessageType.image, {caption: `${title}`})
                     audiony = await getBuffer(result)
-                    client.sendMessage(from, audiony, MessageType.audio, {mimetype: 'audio/mp4', filename: `${title}.mp3`, quoted: lin})
+                    vinicius.sendMessage(from, audiony, MessageType.audio, {mimetype: 'audio/mp4', filename: `${title}.mp3`, quoted: lin})
                 break
             case 'randomaesthetic':
                     url = `https://lindow-api.herokuapp.com/api/randomaesthetic?apikey=${apikey}`
                     estetik = await getBuffer(url)
-                    client.sendMessage(from, estetik, MessageType.video, {mimetype: 'video/mp4', filename: `estetod.mp4`, quoted: lin, caption: 'success'})
+                    vinicius.sendMessage(from, estetik, MessageType.video, {mimetype: 'video/mp4', filename: `estetod.mp4`, quoted: lin, caption: 'success'})
                 break
             case 'swm':
 	    case 'stickerwm':
 	        if (isMedia && !lin.message.videoMessage || isQuotedImage) {
 		if (!arg.includes('|')) return reply(`Kirim gambar atau reply gambar dengan caption *${prefix}stickerwm nama|author*`)
 		const encmedia = isQuotedImage ? JSON.parse(JSON.stringify(lin).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : lin
-		const media = await client.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
+		const media = await vinicius.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
 		const packname1 = arg.split('|')[0]
 		const author1 = arg.split('|')[1]
 		exif.create(packname1, author1, `stickwm_${sender}`)
@@ -395,7 +395,7 @@ API: https://api-gdr.herokuapp.com
 		} else if ((isMedia && lin.message.videoMessage.fileLength < 10000000 || isQuotedVideo && lin.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage.fileLength < 10000000)) {
 		if (!arg.includes('|')) return reply(`Kirim gambar atau reply gambar dengan caption *${prefix}stickerwm nama|author*`)
 		const encmedia = isQuotedVideo ? JSON.parse(JSON.stringify(lin).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : lin
-		const media = await client.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
+		const media = await vinicius.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
 		const packname1 = arg.split('|')[0]
 		const author1 = arg.split('|')[1]
 		    exif.create(packname1, author1, `stickwm_${sender}`)
@@ -433,7 +433,7 @@ API: https://api-gdr.herokuapp.com
 	    case 's':
 		if (isMedia && !lin.message.videoMessage || isQuotedImage) {
 		const encmedia = isQuotedImage ? JSON.parse(JSON.stringify(lin).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : lin
-		const media = await client.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
+		const media = await vinicius.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
 		await ffmpeg(`${media}`)
 		.input(media)
 		.on('start', function (cmd) {
@@ -458,7 +458,7 @@ API: https://api-gdr.herokuapp.com
 		.save(`./sticker/${sender}.webp`)
 		} else if ((isMedia && lin.message.videoMessage.fileLength < 10000000 || isQuotedVideo && lin.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage.fileLength < 10000000)) {
 		    const encmedia = isQuotedVideo ? JSON.parse(JSON.stringify(lin).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : lin
-		    const media = await client.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
+		    const media = await vinicius.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
 		    reply('wait')
 			await ffmpeg(`${media}`)
 			.inputFormat(media.split('.')[4])
@@ -489,7 +489,7 @@ API: https://api-gdr.herokuapp.com
 	        break
             case 'getbio':
                 var yy = lin.message.extendedTextMessage.contextInfo.mentionedJid[0]
-                var p = await client.getStatus(`${yy}`, MessageType.text)
+                var p = await vinicius.getStatus(`${yy}`, MessageType.text)
                 reply(p.status)
                 if (p.status == 401) {
                 reply("Não Achei")
@@ -499,12 +499,12 @@ API: https://api-gdr.herokuapp.com
 		if (lin.message.extendedTextMessage != undefined){
 		mentioned = lin.message.extendedTextMessage.contextInfo.mentionedJid
 	        try {
-		    pic = await client.getProfilePicture(mentioned[0])
+		    pic = await vinicius.getProfilePicture(mentioned[0])
 		} catch {
 		    pic = 'https://i.ibb.co/Tq7d7TZ/age-hananta-495-photo.png'
 		}
 		thumb = await getBuffer(pic)
-		client.sendMessage(from, thumb, MessageType.image, {caption: 'successo'})
+		vinicius.sendMessage(from, thumb, MessageType.image, {caption: 'successo'})
 	        }
 		break
             case 'fdeface': 
@@ -514,9 +514,9 @@ API: https://api-gdr.herokuapp.com
 	        var descnye = nn.split("|")[2];
                 run = getRandom('.jpeg')
                 var media1 = isQuotedImage ? JSON.parse(JSON.stringify(lin).replace('quotedM','m')).message.extendedTextMessage.contextInfo : lin
-                var media2 = await client.downloadAndSaveMediaMessage(media1)
+                var media2 = await vinicius.downloadAndSaveMediaMessage(media1)
                 var ddatae = await imageToBase64(JSON.stringify(media2).replace(/\"/gi, ''))
-                client.sendMessage(from, {
+                vinicius.sendMessage(from, {
                     text: `${urlnye}`,
                     matchedText: `${urlnye}`,
                     canonicalUrl: `${urlnye}`,
@@ -560,57 +560,57 @@ API: https://api-gdr.herokuapp.com
             case 'desarquivar':
                 if (!itsMe) return reply('Apenas meu dono pode usar isso')
                 reply('*succes unarchive all chat*')
-                anu = await client.chats.all()
+                anu = await vinicius.chats.all()
                 for (let _ of anu) {
-                client.modifyChat(_.jid, ChatModification.unarchive)
+                vinicius.modifyChat(_.jid, ChatModification.unarchive)
                 }
                 break
             case 'arquivar':
                 if (!itsMe) return reply('Esse BOT é Self TLGD Né?')
                 reply('*okey wait..*')
                 await sleep(3000)
-                client.modifyChat(from, ChatModification.archive)
+                vinicius.modifyChat(from, ChatModification.archive)
                 break
             case 'deletarchat':
                 if (!itsMe) return reply('Esse BOT é Self TLGD Né?')
                 reply('*Pronto*')
                 await sleep(4000)
-                client.modifyChat(from, ChatModification.delete)
+                vinicius.modifyChat(from, ChatModification.delete)
                 break
             case 'mute':
                 if (!itsMe) return reply('Só pd ser usado pelo meu dono')
-                client.modifyChat(from, ChatModification.mute, 24*60*60*1000)
+                vinicius.modifyChat(from, ChatModification.mute, 24*60*60*1000)
                 reply('*succes mute this chat*')
                 break
             case 'unmute':
                 if (!itsMe) return reply('Apenas meu dono')
-                client.modifyChat(from, ChatModification.unmute)
+                vinicius.modifyChat(from, ChatModification.unmute)
                 reply('*succes unmute this chat*')
                 break
             case 'upstory':
                 if (!itsMe) return reply('Apenas meu dono')
                 var teks = body.slice(9)
-                client.sendMessage('status@broadcast', teks, text)
+                vinicius.sendMessage('status@broadcast', teks, text)
                     reply('succses')
                 break
             case 'deslertudo':
                 if (!itsMe) return reply('Apenas meu dono')
-                var chats = await client.chats.all()
+                var chats = await vinicius.chats.all()
                 chats.map( async ({ jid }) => {
-                await client.chatRead(jid, 'unread')
+                await vinicius.chatRead(jid, 'unread')
                     })
 		    var teks = `\`\`\`Successfully unread ${chats.length} chats !\`\`\``
-		    await client.sendMessage(from, teks, MessageType.text, {quoted: lin})
+		    await vinicius.sendMessage(from, teks, MessageType.text, {quoted: lin})
 		    console.log(chats.length)
 	        break
             case 'lertudo':
                 if (!itsMe) return reply('Apenas meu dono')
-                var chats = await client.chats.all()
+                var chats = await vinicius.chats.all()
                 chats.map( async ({ jid }) => {
-                await client.chatRead(jid)
+                await vinicius.chatRead(jid)
                 })
 		var teks = `\`\`\`Pronto li ${chats.length} chats !\`\`\``
-	        await client.sendMessage(from, teks, MessageType.text, {quoted: lin})
+	        await vinicius.sendMessage(from, teks, MessageType.text, {quoted: lin})
 		console.log(chats.length)
 		break
             case 'fakereply':
@@ -619,7 +619,7 @@ API: https://api-gdr.herokuapp.com
 		var nomorr = ghh.split("|")[0];
 	        var target = ghh.split("|")[1];
 		var bot = ghh.split("|")[2];
-	            client.sendMessage(from, `${bot}`, MessageType.text, {quoted: { key: { fromMe: false, participant: nomorr+'@s.whatsapp.net', ...(from ? { remoteJid: from } : {}) }, message: { conversation: `${target}` }}})
+	            vinicius.sendMessage(from, `${bot}`, MessageType.text, {quoted: { key: { fromMe: false, participant: nomorr+'@s.whatsapp.net', ...(from ? { remoteJid: from } : {}) }, message: { conversation: `${target}` }}})
                 break
             case 'tagall':
                 if (!isAdmin) return reply('only for admin group')
@@ -637,16 +637,16 @@ API: https://api-gdr.herokuapp.com
                 var pc = budy.slice(6)
                 var nomor = pc.split("|")[0];
                 var org = pc.split("|")[1];
-                client.sendMessage(nomor+'@s.whatsapp.net', org, MessageType.text)   
+                vinicius.sendMessage(nomor+'@s.whatsapp.net', org, MessageType.text)   
                 reply('done..')
                 break
             case 'setpp':
                 if (!itsMe) return reply('Esse BOT é Self TLGD Né?')
-                client.updatePresence(from, Presence.composing) 
+                vinicius.updatePresence(from, Presence.composing) 
                 if (!isQuotedImage) return reply(`Kirim gambar dengan caption ${prefix}setpp atau tag gambar yang sudah dikirim`)
 	        var media1 = JSON.parse(JSON.stringify(lin).replace('quotedM','m')).message.extendedTextMessage.contextInfo
-		var media2 = await client.downloadAndSaveMediaMessage(media1)
-	        await client.updateProfilePicture(meNumber, media2)
+		var media2 = await vinicius.downloadAndSaveMediaMessage(media1)
+	        await vinicius.updateProfilePicture(meNumber, media2)
 		reply('Done!')
 	        break
             case 'banir':
@@ -671,12 +671,12 @@ API: https://api-gdr.herokuapp.com
                 if (!itsMe) return reply('Apenas meu donoa')
 	            await wa.FakeTokoForwarded(from, `Bye...`, fake)
 		        await sleep(5000)
-                client.close()
+                vinicius.close()
 		        break
             case 'pegartexto': 
 	        if ((isMedia && !lin.message.videoMessage || isQuotedImage) && args.length == 0) {
 	    	var media1 = isQuotedImage ? JSON.parse(JSON.stringify(lin).replace('quotedM','m')).message.extendedTextMessage.contextInfo : lin
-                var media2 = await client.downloadAndSaveMediaMessage(media1)
+                var media2 = await vinicius.downloadAndSaveMediaMessage(media1)
                 reply("*waitt*")
 	    	await recognize(media2, {lang: 'eng+ind', oem: 1, psm: 3})
 		    .then(teks => {
@@ -696,7 +696,7 @@ API: https://api-gdr.herokuapp.com
 		for (let mem of groupMembers) {
 	   	members_id.push(mem.jid)
 	  	}
-                client.groupDemoteAdmin(from, members_id)
+                vinicius.groupDemoteAdmin(from, members_id)
                 break
             case 'publico':
                 if (!isOwner && !itsMe) return await reply('Apenas Meu Dono')
@@ -731,7 +731,7 @@ API: https://api-gdr.herokuapp.com
                 if (!isOwner && !itsMe) return await reply('Apenas Meu Dono')
                 if (!isQuotedImage && !isImage) return await reply('Gambarnya mana?')
                 media1 = isQuotedImage ? JSON.parse(JSON.stringify(lin).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : lin
-                mediaa = await client.downloadMediaMessage(media1)
+                mediaa = await vinicius.downloadMediaMessage(media1)
                 fs.writeFileSync(`./lib/image/foto.jpg`, mediaa)
                 await wa.sendFakeStatus(from, "*Succes changed image for help image*", "success")
                 break
@@ -761,7 +761,7 @@ API: https://api-gdr.herokuapp.com
                 if (!isGroup) return await reply('Só pode ser usado em grps otário!')
                 reply(`ADEEEUSS!`).then(async() => {
                     await help.sleep(3000)
-                    await client.groupLeave(from)
+                    await vinicius.groupLeave(from)
                 })
                 break
             case 'entrar':
@@ -769,12 +769,12 @@ API: https://api-gdr.herokuapp.com
                 if (isGroup) return await reply('This command only for private chat')
                 if (args.length == 0) return await reply('Link group?')
                 var link = args[0].replace("https://chat.whatsapp.com/", "")
-                await client.acceptInvite(link)
+                await vinicius.acceptInvite(link)
                 break
             case 'clearall':
                 if (!isOwner && !itsMe) return await reply('Apenas Meu Dono')
                 for (let chat of totalChat) {
-                    await client.modifyChat(chat.jid, "delete")
+                    await vinicius.modifyChat(chat.jid, "delete")
                 }
                 await wa.sendFakeStatus(from, "Success clear", "success")
                 break
@@ -790,7 +790,7 @@ API: https://api-gdr.herokuapp.com
 		reply(`nan pd ser gif `)
 	        } else {
 		var media1 = JSON.parse(JSON.stringify(lin).replace('quotedM','m')).message.extendedTextMessage.contextInfo
-	        var media2 = await client.downloadAndSaveMediaMessage(media1)
+	        var media2 = await vinicius.downloadAndSaveMediaMessage(media1)
 		ran = getRandom('.png')
                 exec(`ffmpeg -i ${media2} ${ran}`, (err) => {
 		fs.unlinkSync(media2)
@@ -799,7 +799,7 @@ API: https://api-gdr.herokuapp.com
 			fs.unlinkSync(ran)
 			} else {
 			buffer = fs.readFileSync(ran)
-			client.sendMessage(from, buffer, MessageType.image, {quoted: lin, caption: 'success'})
+			vinicius.sendMessage(from, buffer, MessageType.image, {quoted: lin, caption: 'success'})
 			fs.unlinkSync(ran)
 			}
 	            })
@@ -810,7 +810,7 @@ API: https://api-gdr.herokuapp.com
                 if (!isAdmin && !isOwner && !itsMe) return await reply('Só pode ser usado por admin!!!n')
                 if (!isQuotedImage && !isImage) return await reply('Stickernya mana?')
                 media = isQuotedSticker ? JSON.parse(JSON.stringify(lin).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : lin
-                buffer = await client.downloadMediaMessage(media)
+                buffer = await vinicius.downloadMediaMessage(media)
                 await wa.hideTagSticker(from, buffer)
                 break
             case 'promover':
@@ -837,7 +837,7 @@ API: https://api-gdr.herokuapp.com
                 if (!isGroup) return await reply('Só pode ser usado em grps otário!')
                 if (!isAdmin) return await reply('Só pode ser usado por admin!!!')
                 if (!botAdmin) return await reply('Só Consigo usar com eu sendo ademir')
-                    client.groupSettingChange(from, GroupSettingChange.messageSend, false).then(() => {
+                    vinicius.groupSettingChange(from, GroupSettingChange.messageSend, false).then(() => {
                         wa.sendFakeStatus(from, "*Success open group*", "GRUPO FECHADO")
                     })
                 break
@@ -845,7 +845,7 @@ API: https://api-gdr.herokuapp.com
                     if (!isGroup) return await reply('Só pode ser usado em grps otário!')
                     if (!isAdmin) return await reply('Só pode ser usado por admin!!!')
                     if (!botAdmin) return await reply('Só Consigo usar com eu sendo ademir')
-                client.groupSettingChange(from, GroupSettingChange.messageSend, true).then(() => {
+                vinicius.groupSettingChange(from, GroupSettingChange.messageSend, true).then(() => {
                     wa.sendFakeStatus(from, "*Successo", "GRUPO ABERTO")
                 })
                 break
@@ -854,7 +854,7 @@ API: https://api-gdr.herokuapp.com
                 if (!isAdmin) return await reply('Só pode ser usado por admin!!!')
                 if (!botAdmin) return await reply('Só Consigo usar com eu sendo ademir')
                 var newName = args.join(" ")
-                client.groupUpdateSubject(from, newName).then(() => {
+                vinicius.groupUpdateSubject(from, newName).then(() => {
                     wa.sendFakeStatus(from, "Mudei Para" + newName, "GROUP SETTING")
                 })
                 break
@@ -863,7 +863,7 @@ API: https://api-gdr.herokuapp.com
                 if (!isAdmin) return await reply('Só pode ser usado por admin!!!')
                 if (!botAdmin) return await reply('Só consigo usar se eu tiver admin')
                 var newDesc = args.join(" ")
-                client.groupUpdateDescription(from, newDesc).then(() => {
+                vinicius.groupUpdateDescription(from, newDesc).then(() => {
                     wa.sendFakeStatus(from, "Alterei para" + newDesc, "o Texto")
                 })
             default:
