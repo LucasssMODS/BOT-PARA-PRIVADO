@@ -8,7 +8,7 @@
 > pkg install git
 > pkg install nodejs
 > git clone https://github.com/viniciusgdr/selfbot
-> cd Selfbot-whatsapp
+> cd selfbot
 > bash install.sh
 > npm start
 ```
