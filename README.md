@@ -1,5 +1,4 @@
 # VINICIUS SELF-BOT  V1.0.0
-<a href="https://github.com/viniciusgdr"><img title="AUTOR" src="https://camo.githubusercontent.com/da45de01608e2cb4404595b317886324b2e7dca41e95888f56a77a667d0bfe56/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f417574686f722d43415553532d7265642e7376673f7374796c653d666f722d7468652d6261646765266c6f676f3d676974687562" data-canonical-src="https://img.shields.io/badge/Author-viniciusgdr-red.svg?style=for-the-badge&amp;logo=github" style="max-width:100%;"></a>
 
 
 # Instalação
