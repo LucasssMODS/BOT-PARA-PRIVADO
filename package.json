@@ -1,0 +1,39 @@
+{
+    "name": "selfbot",
+    "version": "1.0.0",
+    "description": "Minha SELF-BOT Pública",
+    "main": "index.js",
+    "directories": {
+        "test": "test"
+    },
+    "dependencies": {
+        "@adiwajshing/baileys": "^3.5.0",
+        "form-data": "^4.0.0",
+        "fluent-ffmpeg": "^2.1.2",
+        "axios": "^0.21.1",
+        "cheerio": "^1.0.0-rc.5",
+        "performance-now": "^2.1.0",
+        "node-fetch": "^2.6.1",
+        "request": "^2.88.2",
+        "image-to-base64": "^2.1.1",
+        "moment-timezone": "^0.5.33",
+        "ytsr": "^3.3.1"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/viniciusgdr/selfbot.git"
+    },
+    "keywords": [
+        "selfbot"
+    ],
+    "author": "Meguyy",
+    "bugs": {
+        "url": "https://github.com/viniciusgdr/selfbot/issues"
+    },
+    "homepage": "https://github.com/viniciusgdr/selfbot#readme"
+}
