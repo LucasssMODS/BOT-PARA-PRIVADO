@@ -33,7 +33,7 @@ const config = JSON.parse(fs.readFileSync("./config.json"))
 const owner = config.owner
 const mods = config.mods
 const public = config.public
-const imagenye = JSON.parse(fs.readFileSync('./database/image.json'))
+const imagenye = JSON.parse(fs.readFileSync('./lib/database/image.json'))
 
 conn.connect()
 const vinicius = conn.vinicius
@@ -318,7 +318,7 @@ API: https://api-gdr.herokuapp.com
                 delb = await vinicius.downloadMediaMessage(boij)
 		imagenye.push(`${svst}`)
 	        fs.writeFileSync(`./lib/image/${svst}.jpeg`, delb)
-		fs.writeFileSync('./database/image.json', JSON.stringify(imagenye))
+		fs.writeFileSync('./lib/database/image.json', JSON.stringify(imagenye))
 		    reply(`Succeso ao Adicionar \n${prefix}listimage to view`)
 		break
             case 'stickername':
