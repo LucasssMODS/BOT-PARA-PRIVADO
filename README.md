@@ -9,7 +9,7 @@
 > pkg install nodejs
 > git clone https://github.com/viniciusgdr/selfbot
 > cd selfbot
-> bash install.sh
+> bash install.sh ou npm i
 > npm start
 ```
 
