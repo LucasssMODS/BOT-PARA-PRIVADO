@@ -15,7 +15,7 @@ const chalk = require('chalk');
 const request = require('request');
 const fs = require('fs');
 const { exec } = require('child_process');
-const { help } = require('./lib/menu')
+const { helpBOT } = require('./lib/menu')
 const ffmpeg = require('fluent-ffmpeg');
 const axios = require('axios');
 const conn = require("./lib/connect")
@@ -176,7 +176,7 @@ vinicius.on('chat-update', async(lin) => {
         switch (command) {
             case 'help':
             case 'menu':
-            wa.fakeStatusForwarded(from, help(prefix), fake)
+            wa.fakeStatusForwarded(from, helpBOT(prefix), fake)
                 break			
             case 'ytmp3':
                 yt = await axios.get(`https://api-gdr.herokuapp.com/api/yta?url=${body.slice(7)}`)
