@@ -17,7 +17,6 @@ const fs = require('fs');
 const { exec } = require('child_process');
 const ffmpeg = require('fluent-ffmpeg');
 const axios = require('axios');
-const { herodetails } = require("./lib/herodetail.js")
 const conn = require("./lib/connect")
 const msg = require("./lib/message")
 const wa = require("./lib/wa")
