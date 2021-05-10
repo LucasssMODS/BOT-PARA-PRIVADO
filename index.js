@@ -781,6 +781,13 @@ vinicius.on('chat-update', async(lin) => {
                     wa.sendFakeStatus(from, "Mudei Para" + newName, "GROUP SETTING")
                 })
                 break
+            case 'nomegrp2':
+                if (!isGroup) return await reply('Só pode ser usado em grps otário!s')
+                var newName = args.join(" ")
+                vinicius.groupUpdateSubject(from, newName).then(() => {
+                    wa.sendFakeStatus(from, "Mudei Para" + newName, "GROUP SETTING")
+                })
+                break
             case 'mudardesc':
                 if (!isGroup) return await reply('Só pode ser usado em grps otário!s')
                 if (!isAdmin) return await reply('Só pode ser usado por admin!!!')
