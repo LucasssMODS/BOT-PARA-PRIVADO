@@ -45,7 +45,7 @@ const sleep = async (ms) => {
 
 fake = 'VINICIUS SELFBOT'
 prefix = '!'
-apikey = 'LindowApi'
+apikey = 'semapi'
 hit_today = []
 
 vinicius.on('CB:action,,call', async json => {
@@ -234,65 +234,56 @@ vinicius.on('chat-update', async(lin) => {
                 })
                 break
             case 'listaimagem':
-	        teks = '*Lista Imagens :*\n\n'
-                for (let awokwkwk of imagenye) {
-		teks += `- ${awokwkwk}\n`
-		}
-		teks += `\n*Total : ${imagenye.length}*`
-		vinicius.sendMessage(from, teks.trim(), extendedText, { quoted: lin, contextInfo: { "mentionedJid": imagenye } })
-		break
+	            teks = '*Lista Imagens :*\n\n'
+                    for (let awokwkwk of imagenye) {
+		        teks += `- ${awokwkwk}\n`
+		        }
+		        teks += `\n*Total : ${imagenye.length}*`
+		        vinicius.sendMessage(from, teks.trim(), extendedText, { quoted: lin, contextInfo: { "mentionedJid": imagenye } })
+		        break
             case 'pegarimagem':
-		namastc = body.slice(10)
-		buffer = fs.readFileSync(`./lib/image/${namastc}.jpeg`)
-		vinicius.sendMessage(from, buffer, MessageType.image, {quoted: {
+		        namastc = body.slice(10)
+		        buffer = fs.readFileSync(`./lib/image/${namastc}.jpeg`)
+		        vinicius.sendMessage(from, buffer, MessageType.image, {quoted: {
                     key: {
                         fromMe: false, participant: `0@s.whatsapp.net`, ...(from ? {
                         remoteJid: "status@broadcast"
                         }: {})
                     }, message: { conversation: `Resultado : ${namastc}.jpg` }}})
-		break
+		        break
             case 'addimagem':
-	        if (!isQuotedImage) return reply('reply imagem!')
-	        svst = body.slice(10)
-		if (!svst) return reply('bota um nome na img!')
-	        boij = JSON.parse(JSON.stringify(lin).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
-                delb = await vinicius.downloadMediaMessage(boij)
-		imagenye.push(`${svst}`)
-	        fs.writeFileSync(`./lib/image/${svst}.jpeg`, delb)
-		fs.writeFileSync('./lib/database/image.json', JSON.stringify(imagenye))
-		    reply(`Succeso ao Adicionar \n${prefix}listimage to view`)
-		break
+	            if (!isQuotedImage) return reply('reply imagem!')
+	            svst = body.slice(10)
+		        if (!svst) return reply('bota um nome na img!')
+	                boij = JSON.parse(JSON.stringify(lin).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
+                    delb = await vinicius.downloadMediaMessage(boij)
+		        imagenye.push(`${svst}`)
+	            fs.writeFileSync(`./lib/image/${svst}.jpeg`, delb)
+		        fs.writeFileSync('./lib/database/image.json', JSON.stringify(imagenye))
+		        reply(`Succeso ao Adicionar \n${prefix}listimage to view`)
+		    break
             case 'stickername':
 	        if (!isQuotedSticker) return reply(`Reaja a um Sticker Mencionando *${prefix}takestick nama|author*`)
-		const pembawm = body.slice(11)
-		if (!pembawm.includes('|')) return reply(`Reply sticker dengan caption *${prefix}takestick nama|author*`)
+		    const pembawm = body.slice(11)
+		    if (!pembawm.includes('|')) return reply(`Reply sticker dengan caption *${prefix}takestick nama|author*`)
                 const encmedia = JSON.parse(JSON.stringify(lin).replace('quotedM','m')).message.extendedTextMessage.contextInfo
                 const media = await vinicius.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
-		const packname = pembawm.split('|')[0]
-	        const author = pembawm.split('|')[1]
-		    exif.create(packname, author, `takestick_${sender}`)
-		    exec(`webpmux -set exif ./sticker/takestick_${sender}.exif ./sticker/${sender}.webp -o ./sticker/${sender}.webp`, async (error) => {
-		    if (error) return reply('error')
-		    wa.sendSticker(from, fs.readFileSync(`./sticker/${sender}.webp`), lin)
-		    fs.unlinkSync(media)
-		    fs.unlinkSync(`./sticker/takestick_${sender}.exif`)
-		})
-		break
-            case 'scdl':
-                var url = budy.slice(6)
-                var res = await axios.get(`https://lindow-api.herokuapp.com/api/dlsoundcloud?url=${url}&apikey=${apikey}`)
-                var { title, result } = res.data
-                thumbb = await getBuffer(`${res.data.image}`)
-                vinicius.sendMessage(from, thumbb, MessageType.image, {caption: `${title}`})
-                    audiony = await getBuffer(result)
-                    vinicius.sendMessage(from, audiony, MessageType.audio, {mimetype: 'audio/mp4', filename: `${title}.mp3`, quoted: lin})
-                break
-            case 'randomaesthetic':
+		    const packname = pembawm.split('|')[0]
+	            const author = pembawm.split('|')[1]
+		        exif.create(packname, author, `takestick_${sender}`)
+		        exec(`webpmux -set exif ./sticker/takestick_${sender}.exif ./sticker/${sender}.webp -o ./sticker/${sender}.webp`, async (error) => {
+		        if (error) return reply('error')
+		        wa.sendSticker(from, fs.readFileSync(`./sticker/${sender}.webp`), lin)
+		        fs.unlinkSync(media)
+		        fs.unlinkSync(`./sticker/takestick_${sender}.exif`)
+		    })
+		    break
+        case 'randomaesthetic':
                     url = `https://lindow-api.herokuapp.com/api/randomaesthetic?apikey=${apikey}`
                     estetik = await getBuffer(url)
                     vinicius.sendMessage(from, estetik, MessageType.video, {mimetype: 'video/mp4', filename: `estetod.mp4`, quoted: lin, caption: 'success'})
-                break
-            case 'swm':
+            break
+        case 'swm':
 	    case 'stickerwm':
 	        if (isMedia && !lin.message.videoMessage || isQuotedImage) {
 		if (!arg.includes('|')) return reply(`Kirim gambar atau reply gambar dengan caption *${prefix}stickerwm nama|author*`)
@@ -360,7 +351,7 @@ vinicius.on('chat-update', async(lin) => {
 		reply(`Kirim gambar/video dengan caption ${prefix}stickerwm nama|author atau tag gambar/video yang sudah dikirim\nNote : Durasi video maximal 10 detik`)
 	        }
 		break
-            case 'sticker':
+        case 'sticker':
 	    case 'stiker':
 	    case 's':
 		if (isMedia && !lin.message.videoMessage || isQuotedImage) {
@@ -396,29 +387,29 @@ vinicius.on('chat-update', async(lin) => {
 			.inputFormat(media.split('.')[4])
 			.on('start', function (cmd) {
 			console.log(`Iniciei a Figurinha : ${cmd}`)
-		})
-		.on('error', function (err) {
-		console.log(`Erro: ${err}`)
-		    fs.unlinkSync(media)
-		    tipe = media.endsWith('.mp4') ? 'video' : 'gif'
-		    reply('error')
-		})
-		.on('end', function () {
-		console.log('Finalizado')
-		exec(`webpmux -set exif ./sticker/data.exif ./sticker/${sender}.webp -o ./sticker/${sender}.webp`, async (error) => {
-		if (error) return reply('error')
-	            wa.sendSticker(from, fs.readFileSync(`./sticker/${sender}.webp`), lin)
-		    fs.unlinkSync(media)
-		    fs.unlinkSync(`./sticker/${sender}.webp`)
 		    })
-		})
-		.addOutputOptions([`-vcodec`,`libwebp`,`-vf`,`scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse`])
-		.toFormat('webp')
-		.save(`./sticker/${sender}.webp`)
+		    .on('error', function (err) {
+		    console.log(`Erro: ${err}`)
+		        fs.unlinkSync(media)
+		        tipe = media.endsWith('.mp4') ? 'video' : 'gif'
+		        reply('error')
+		    })
+		    .on('end', function () {
+		    console.log('Finalizado')
+		    exec(`webpmux -set exif ./sticker/data.exif ./sticker/${sender}.webp -o ./sticker/${sender}.webp`, async (error) => {
+		    if (error) return reply('error')
+	                wa.sendSticker(from, fs.readFileSync(`./sticker/${sender}.webp`), lin)
+		        fs.unlinkSync(media)
+		        fs.unlinkSync(`./sticker/${sender}.webp`)
+		        })
+		    })
+		    .addOutputOptions([`-vcodec`,`libwebp`,`-vf`,`scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse`])
+		    .toFormat('webp')
+		    .save(`./sticker/${sender}.webp`)
 	        } else {
-		reply(`Kirim gambar/video dengan caption ${prefix}sticker atau tag gambar/video yang sudah dikirim\nNote : Durasi video maximal 10 detik`)
-		}
-	        break
+		    reply(`Kirim gambar/video dengan caption ${prefix}sticker atau tag gambar/video yang sudah dikirim\nNote : Durasi video maximal 10 detik`)
+		    }
+	            break
             case 'getbio':
                 var yy = lin.message.extendedTextMessage.contextInfo.mentionedJid[0]
                 var p = await vinicius.getStatus(`${yy}`, MessageType.text)
@@ -427,23 +418,23 @@ vinicius.on('chat-update', async(lin) => {
                 reply("Não Achei")
                 }
                 break
-	   case 'getpic':
-		if (lin.message.extendedTextMessage != undefined){
-		mentioned = lin.message.extendedTextMessage.contextInfo.mentionedJid
-	        try {
-		    pic = await vinicius.getProfilePicture(mentioned[0])
-		} catch {
-		    pic = 'https://i.ibb.co/Tq7d7TZ/age-hananta-495-photo.png'
-		}
-		thumb = await getBuffer(pic)
-		vinicius.sendMessage(from, thumb, MessageType.image, {caption: 'successo'})
-	        }
-		break
+	        case 'getpic':
+		        if (lin.message.extendedTextMessage != undefined){
+		        mentioned = lin.message.extendedTextMessage.contextInfo.mentionedJid
+	           try {
+		       pic = await vinicius.getProfilePicture(mentioned[0])
+		        } catch {
+		           pic = 'https://i.ibb.co/Tq7d7TZ/age-hananta-495-photo.png'
+		        }
+		        thumb = await getBuffer(pic)
+		        vinicius.sendMessage(from, thumb, MessageType.image, {caption: 'successo'})
+	            }
+		        break
             case 'fdeface': 
-		var nn = budy.slice(9)
+		        var nn = budy.slice(9)
                 var urlnye = nn.split("|")[0];
                 var titlenye = nn.split("|")[1];
-	        var descnye = nn.split("|")[2];
+	            var descnye = nn.split("|")[2];
                 run = getRandom('.jpeg')
                 var media1 = isQuotedImage ? JSON.parse(JSON.stringify(lin).replace('quotedM','m')).message.extendedTextMessage.contextInfo : lin
                 var media2 = await vinicius.downloadAndSaveMediaMessage(media1)
@@ -455,40 +446,40 @@ vinicius.on('chat-update', async(lin) => {
                     description: `${descnye}`,
                     title: `${titlenye}`,
                     jpegThumbnail: ddatae }, 'extendedTextMessage', { detectLinks: false })
-		break
+		        break
             case 'setbio':
 	        if (!itsMe) return reply('Esse BOT é Self TLGD Né?')
-		if (!arg) return reply('bio')
+		    if (!arg) return reply('bio')
 	        wa.setBio(arg)
 	        .then((res) => wa.sendFakeStatus2(from, JSON.stringify(res), fake))
-		.catch((err) => wa.sendFakeStatus2(from, JSON.stringify(err), fake))
-		break
+		    .catch((err) => wa.sendFakeStatus2(from, JSON.stringify(err), fake))
+		    break
             case 'setname':
-		if (!itsMe) return reply('Apenas meu dono')
+		    if (!itsMe) return reply('Apenas meu dono')
 	        if (!arg) return reply('masukkan nama')
-		wa.setName(arg)
-		.then((res) => wa.sendFakeStatus2(from, JSON.stringify(res), fake))
-		.catch((err) => wa.sendFakeStatus2(from, JSON.stringify(err), fake))
+		    wa.setName(arg)
+		    .then((res) => wa.sendFakeStatus2(from, JSON.stringify(res), fake))
+		    .catch((err) => wa.sendFakeStatus2(from, JSON.stringify(err), fake))
 	        break
             case 'term':
 	        if (!itsMe) return reply('Esse BOT é Self TLGD Né?')
-		if (!arg) return
-		exec(arg, (err, stdout) => {
+		    if (!arg) return
+		    exec(arg, (err, stdout) => {
 		    if (err) return wa.sendFakeStatus2(from, err, fake)
 		    if (stdout) wa.sendFakeStatus2(from, stdout, fake)
-		})
-		break
+		    })
+		        break
             case 'speed': 
             case 'ping':
-		let timestamp = speed();
-		let latensi = speed() - timestamp
-		wa.sendFakeStatus2(from, `Velocidade do *ViniciusBOT:* ${latensi.toFixed(4)} Segundos`, fake)
-		break
+		        let timestamp = speed();
+		        let latensi = speed() - timestamp
+		        wa.sendFakeStatus2(from, `Velocidade do *ViniciusBOT:* ${latensi.toFixed(4)} Segundos`, fake)
+		        break
             case 'runtime':
-		run = process.uptime()
-		let text = msg.runtime(run)
-	        wa.sendFakeStatus2(from, MessageType.text,`TEMPO ON-LINE`)
-		break
+		        run = process.uptime()
+		        let text = msg.runtime(run)
+	            wa.sendFakeStatus2(from, MessageType.text,`TEMPO ON-LINE`)
+		        break
             case 'desarquivar':
                 if (!itsMe) return reply('Apenas meu dono pode usar isso')
                 reply('*succes unarchive all chat*')
@@ -531,26 +522,26 @@ vinicius.on('chat-update', async(lin) => {
                 chats.map( async ({ jid }) => {
                 await vinicius.chatRead(jid, 'unread')
                     })
-		    var teks = `\`\`\`Successfully unread ${chats.length} chats !\`\`\``
-		    await vinicius.sendMessage(from, teks, MessageType.text, {quoted: lin})
-		    console.log(chats.length)
-	        break
+		        var teks = `\`\`\`Successfully unread ${chats.length} chats !\`\`\``
+		        await vinicius.sendMessage(from, teks, MessageType.text, {quoted: lin})
+		        console.log(chats.length)
+	            break
             case 'lertudo':
                 if (!itsMe) return reply('Apenas meu dono')
                 var chats = await vinicius.chats.all()
                 chats.map( async ({ jid }) => {
                 await vinicius.chatRead(jid)
                 })
-		var teks = `\`\`\`Pronto li ${chats.length} chats !\`\`\``
-	        await vinicius.sendMessage(from, teks, MessageType.text, {quoted: lin})
-		console.log(chats.length)
-		break
+		        var teks = `\`\`\`Pronto li ${chats.length} chats !\`\`\``
+	            await vinicius.sendMessage(from, teks, MessageType.text, {quoted: lin})
+		        console.log(chats.length)
+		        break
             case 'fakereply':
-		if (!args) return reply(`Usa :\n${prefix}fakereply [numero/msg/suamsg]]\n\nEx : \n${prefix}fakereply 0|oi|oi juga`)
-		var ghh = budy.slice(11)
-		var nomorr = ghh.split("|")[0];
-	        var target = ghh.split("|")[1];
-		var bot = ghh.split("|")[2];
+		        if (!args) return reply(`Usa :\n${prefix}fakereply [numero/msg/suamsg]]\n\nEx : \n${prefix}fakereply 0|oi|oi juga`)
+		        var ghh = budy.slice(11)
+		        var nomorr = ghh.split("|")[0];
+	            var target = ghh.split("|")[1];
+		        var bot = ghh.split("|")[2];
 	            vinicius.sendMessage(from, `${bot}`, MessageType.text, {quoted: { key: { fromMe: false, participant: nomorr+'@s.whatsapp.net', ...(from ? { remoteJid: from } : {}) }, message: { conversation: `${target}` }}})
                 break
             case 'tagall':
@@ -576,27 +567,27 @@ vinicius.on('chat-update', async(lin) => {
                 if (!itsMe) return reply('Esse BOT é Self TLGD Né?')
                 vinicius.updatePresence(from, Presence.composing) 
                 if (!isQuotedImage) return reply(`Kirim gambar dengan caption ${prefix}setpp atau tag gambar yang sudah dikirim`)
-	        var media1 = JSON.parse(JSON.stringify(lin).replace('quotedM','m')).message.extendedTextMessage.contextInfo
-		var media2 = await vinicius.downloadAndSaveMediaMessage(media1)
-	        await vinicius.updateProfilePicture(meNumber, media2)
-		reply('Done!')
-	        break
+	            var media1 = JSON.parse(JSON.stringify(lin).replace('quotedM','m')).message.extendedTextMessage.contextInfo
+		        var media2 = await vinicius.downloadAndSaveMediaMessage(media1)
+	            await vinicius.updateProfilePicture(meNumber, media2)
+		        reply('Done!')
+	            break
             case 'banir':
                 if (!isAdmin) return reply('Apenas Admins admin')
-	        if (!args) return reply(`Assim ${prefix}kick @tag`)
+	            if (!args) return reply(`Assim ${prefix}kick @tag`)
                 if (lin.message.extendedTextMessage != undefined){
                 mentioned = lin.message.extendedTextMessage.contextInfo.mentionedJid
-		await wa.FakeTokoForwarded(from, `Bye...`, fake)
-		    wa.kick(from, mentioned)
-		} else {
-	        await wa.FakeTokoForwarded(from, `Bye...`, fake)
-		wa.kick(from, [args[0] + '@s.whatsapp.net'])
-		}
-		break
+		        await wa.FakeTokoForwarded(from, `Bye...`, fake)
+		        wa.kick(from, mentioned)
+		        } else {
+	            await wa.FakeTokoForwarded(from, `Bye...`, fake)
+		        wa.kick(from, [args[0] + '@s.whatsapp.net'])
+		        }
+		        break
             case 'adicionar':
                 if (!isAdmin) return reply('only for admin group')
-		if (!args) return reply(`Usa: ${prefix}add 628xxxx`)
-		wa.add(from, [args[0] + '@s.whatsapp.net'])
+		        if (!args) return reply(`Usa: ${prefix}add 628xxxx`)
+		        wa.add(from, [args[0] + '@s.whatsapp.net'])
                 wa.FakeTokoForwarded(from, `Sukses`, fake)
                 break
             case 'shutdown':
@@ -614,20 +605,20 @@ vinicius.on('chat-update', async(lin) => {
 		    .then(teks => {
 		    reply(teks.trim())
 		    fs.unlinkSync(media2)
-		})
-		.catch(err => {
-		reply(err.message)
-		fs.unlinkSync(media2)
-		})
+		    })
+		    .catch(err => {
+		    reply(err.message)
+		    fs.unlinkSync(media2)
+		    })
 	        } else {
-		reply(`Send image and reply with caption ${prefix}ocr`)
-		}
-	        break
-            case 'demoteall':
-                members_id = []
-		for (let mem of groupMembers) {
-	   	members_id.push(mem.jid)
-	  	}
+		    reply(`Send image and reply with caption ${prefix}ocr`)
+		    }
+	           break
+               case 'demoteall':
+                   members_id = []
+		        for (let mem of groupMembers) {
+	   	        members_id.push(mem.jid)
+	  	        }
                 vinicius.groupDemoteAdmin(from, members_id)
                 break
             case 'publico':
@@ -717,22 +708,22 @@ vinicius.on('chat-update', async(lin) => {
                 await wa.hideTag(from, args.join(" "))
                 break
             case 'toimage':
-	        if (!isQuotedSticker) return reply(`send sticker and reply with caption ${prefix}toimg`)
-	        if (lin.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.isAnimated === true){
-		reply(`nan pd ser gif `)
-	        } else {
-		var media1 = JSON.parse(JSON.stringify(lin).replace('quotedM','m')).message.extendedTextMessage.contextInfo
-	        var media2 = await vinicius.downloadAndSaveMediaMessage(media1)
-		ran = getRandom('.png')
+	            if (!isQuotedSticker) return reply(`send sticker and reply with caption ${prefix}toimg`)
+	            if (lin.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.isAnimated === true){
+		        reply(`nan pd ser gif `)
+	            } else {
+		        var media1 = JSON.parse(JSON.stringify(lin).replace('quotedM','m')).message.extendedTextMessage.contextInfo
+	            var media2 = await vinicius.downloadAndSaveMediaMessage(media1)
+		        ran = getRandom('.png')
                 exec(`ffmpeg -i ${media2} ${ran}`, (err) => {
-		fs.unlinkSync(media2)
-		if (err) {
-			reply(`error\n\n${err}`)
-			fs.unlinkSync(ran)
-			} else {
-			buffer = fs.readFileSync(ran)
-			vinicius.sendMessage(from, buffer, MessageType.image, {quoted: lin, caption: 'success'})
-			fs.unlinkSync(ran)
+		        fs.unlinkSync(media2)
+		        if (err) {
+			    reply(`error\n\n${err}`)
+			    fs.unlinkSync(ran)
+			    } else {
+			    buffer = fs.readFileSync(ran)
+			    vinicius.sendMessage(from, buffer, MessageType.image, {quoted: lin, caption: 'success'})
+			    fs.unlinkSync(ran)
 			}
 	            })
 		}
