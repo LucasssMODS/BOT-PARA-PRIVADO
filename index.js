@@ -15,6 +15,7 @@ const chalk = require('chalk');
 const request = require('request');
 const fs = require('fs');
 const { exec } = require('child_process');
+const { help } = require('./lib/menu')
 const ffmpeg = require('fluent-ffmpeg');
 const axios = require('axios');
 const conn = require("./lib/connect")
@@ -174,68 +175,8 @@ vinicius.on('chat-update', async(lin) => {
         if (isGroup && isCmd) console.log(chalk.whiteBright("├"), chalk.keyword("aqua")("[EXEC]"), chalk.whiteBright(typeMessage), chalk.greenBright("DE"), chalk.keyword("yellow")(senderNumber), chalk.greenBright("EM"), chalk.keyword("yellow")(groupName))
         switch (command) {
             case 'help':
-                textnya = `
-_*ViniciusBOT - GDRDEV*_
-
-*Informações:*
-_Versão 1.1.0_
-Contato Criador: https://wa.me/558183064666
-Base: ViniciusBOT SELF
-API: https://api-gdr.herokuapp.com
-\n
-╿
-̑ͮͫͭͥͦͣ̔͒͑͑̅͊́͋͊͗͑̓̍̽ͬ̋̎̓ͧ͂̊̉ͣ̉ͩ̀̈̏̍ͭ̒͒͂̍̇̐̿ͨͦ̑͑̃̎͒̋͌̌̈́ͩ̔ͩ̉̿̐ͭ̂͛͊ͩ̔͋ͭͩ͑̆̇͊ͫ̃͋̋ͪͦ͐̈́͗ͭ̒̐̿̃͂́̅̉͊ͧͫ̔̄̿̓́̀̄̾ͨ̍ͨͩͩͮ̑ͭͧͦͣ̽̃͛̔̇ͣ̂͗ͪ͛̈́̆ͮͧ̈̔́͛́͊̇͒ͭ̓ͬ̅̑̊ͩ͆̌ͩ͑̒͊ͭ̀̃̏̅̏ͦͣ̏̿ͬ͂̿ͣ́̓͌ͥ̍ͦ̊̄̆̿̿̈́̅̄̐̎͌͋ͦ͋͂ͨ̂̈͂̉̈́̀̒̃̈́͂̃ͤͪ̎͋̆ͤ̽̇ͩ̑ͨ̽͊ͦͩ̓̎̑̎̆̉ͮ̄͑̆͌ͨ̓̀̋ͤͥͯ͋͑ͧ̆̋ͨͯ̔̑̽͗ͬ͒̀̓͐ͯ̏͆̏ͣ̌͌ͩ̏́̈͂̃͋͛̔ͣ̓̓̇̉ͪͩͯ͛̍͑ͯͨͫͯ̔ͯ̾̓͊͐ͯ̑̌̋̽̈́̏̒ͭ͗̐̇͛̅̍̒̐͌͛̿ͧ͐ͭͣͭ͌̋ͩ̄͌̍̎̽̍ͪ̿ͮͦ͐ͮͪ̇̒͛ͬͦ̏̐̀͊ͮ̓̀͂́͋̾̄̃̐̅̍̉ͫ͂͐̄͗̆̽ͩ̾̾ͤͦ̽̏ͫ̄̓ͫ̍̔ͣ̾̍̍͛ͩ̆ͫ́ͭ͛̂̒ͣ̆̏͌̄ͬ̃̎ͧͧͯ̐ͫ̓̽͆ͪ̚̚̚̚̚ 
-̑ͮͫͭͥͦͣ̔͒͑͑̅͊́͋͊͗͑̓̍̽ͬ̋̎̓ͧ͂̊̉ͣ̉ͩ̀̈̏̍ͭ̒͒͂̍̇̐̿ͨͦ̑͑̃̎͒̋͌̌̈́ͩ̔ͩ̉̿̐ͭ̂͛͊ͩ̔͋ͭͩ͑̆̇͊ͫ̃͋̋ͪͦ͐̈́͗ͭ̒̐̿̃͂́̅̉͊ͧͫ̔̄̿̓́̀̄̾ͨ̍ͨͩͩͮ̑ͭͧͦͣ̽̃͛̔̇ͣ̂͗ͪ͛̈́̆ͮͧ̈̔́͛́͊̇͒ͭ̓ͬ̅̑̊ͩ͆̌ͩ͑̒͊ͭ̀̃̏̅̏ͦͣ̏̿ͬ͂̿ͣ́̓͌ͥ̍ͦ̊̄̆̿̿̈́̅̄̐̎͌͋ͦ͋͂ͨ̂̈͂̉̈́̀̒̃̈́͂̃ͤͪ̎͋̆ͤ̽̇ͩ̑ͨ̽͊ͦͩ̓̎̑̎̆̉ͮ̄͑̆͌ͨ̓̀̋ͤͥͯ͋͑ͧ̆̋ͨͯ̔̑̽͗ͬ͒̀̓͐ͯ̏͆̏ͣ̌͌ͩ̏́̈͂̃͋͛̔ͣ̓̓̇̉ͪͩͯ͛̍͑ͯͨͫͯ̔ͯ̾̓͊͐ͯ̑̌̋̽̈́̏̒ͭ͗̐̇͛̅̍̒̐͌͛̿ͧ͐ͭͣͭ͌̋ͩ̄͌̍̎̽̍ͪ̿ͮͦ͐ͮͪ̇̒͛ͬͦ̏̐̀͊ͮ̓̀͂́͋̾̄̃̐̅̍̉ͫ͂͐̄͗̆̽ͩ̾̾ͤͦ̽̏ͫ̄̓ͫ̍̔ͣ̾̍̍͛ͩ̆ͫ́ͭ͛̂̒ͣ̆̏͌̄ͬ̃̎ͧͧͯ̐ͫ̓̽͆ͪ̚̚̚̚̚ 
-*~
-̑ͮͫͭͥͦͣ̔͒͑͑̅͊́͋͊͗͑̓̍̽ͬ̋̎̓ͧ͂̊̉ͣ̉ͩ̀̈̏̍ͭ̒͒͂̍̇̐̿ͨͦ̑͑̃̎͒̋͌̌̈́ͩ̔ͩ̉̿̐ͭ̂͛͊ͩ̔͋ͭͩ͑̆̇͊ͫ̃͋̋ͪͦ͐̈́͗ͭ̒̐̿̃͂́̅̉͊ͧͫ̔̄̿̓́̀̄̾ͨ̍ͨͩͩͮ̑ͭͧͦͣ̽̃͛̔̇ͣ̂͗ͪ͛̈́̆ͮͧ̈̔́͛́͊̇͒ͭ̓ͬ̅̑̊ͩ͆̌ͩ͑̒͊ͭ̀̃̏̅̏ͦͣ̏̿ͬ͂̿ͣ́̓͌ͥ̍ͦ̊̄̆̿̿̈́̅̄̐̎͌͋ͦ͋͂ͨ̂̈͂̉̈́̀̒̃̈́͂̃ͤͪ̎͋̆ͤ̽̇ͩ̑ͨ̽͊ͦͩ̓̎̑̎̆̉ͮ̄͑̆͌ͨ̓̀̋ͤͥͯ͋͑ͧ̆̋ͨͯ̔̑̽͗ͬ͒̀̓͐ͯ̏͆̏ͣ̌͌ͩ̏́̈͂̃͋͛̔ͣ̓̓̇̉ͪͩͯ͛̍͑ͯͨͫͯ̔ͯ̾̓͊͐ͯ̑̚̚̚̚̚�​  
-\n
-*Comandos*
-┇─ *${prefix}publico*
-┇─ *${prefix}self*
-┇─ *${prefix}setprefix*
-┇─ *${prefix}bc*
-┇─ *${prefix}setthumb*
-┇─ *${prefix}status*
-┇─ *${prefix}bloquear*
-┇─ *${prefix}desbloquear*
-┇─ *${prefix}entrar*
-┇─ *${prefix}hidetag*
-┇─ *${prefix}stickertag*
-┇─ *${prefix}promover*
-┇─ *${prefix}despromover*
-┇─ *${prefix}linkgrupo*
-┇─ *${prefix}abrirgrp*
-┇─ *${prefix}fechargrp*
-┇─ *${prefix}mudardesc*
-┇─ *${prefix}pegartexto*
-┇─ *${prefix}toimage*
-┇─ *${prefix}adicionar*
-┇─ *${prefix}banir*
-┇─ *${prefix}chat*
-┇─ *${prefix}fakereply*
-┇─ *${prefix}lertudo*
-┇─ *${prefix}mutar*
-┇─ *${prefix}desmutar*
-┇─ *${prefix}arquivar*
-┇─ *${prefix}desarquivar*
-┇─ *${prefix}term*
-┇─ *${prefix}setreply*
-┇─ *${prefix}setbio*
-┇─ *${prefix}getpic*
-┇─ *${prefix}getbio*
-┇─ *${prefix}sticker*
-┇─ *${prefix}tinyurl*
-┇─ *${prefix}semprefixo*
-┇─ *${prefix}ytmp3*
-┇─ *${prefix}play*
-┇─ *${prefix}ytmp4*
-┇Adicionar Fotos ao Sistema
-┇
-┇─*${prefix}addimagem*
-┇─*${prefix}listaimagem*
-┇─*${prefix}pegarimagem*
-`
-            wa.fakeStatusForwarded(from, textnya, fake)
+            case 'menu':
+            wa.fakeStatusForwarded(from, help(prefix), fake)
                 break			
             case 'ytmp3':
                 yt = await axios.get(`https://api-gdr.herokuapp.com/api/yta?url=${body.slice(7)}`)
