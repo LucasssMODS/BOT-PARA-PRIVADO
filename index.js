@@ -736,6 +736,22 @@ vinicius.on('chat-update', async(lin) => {
                 buffer = await vinicius.downloadMediaMessage(media)
                 await wa.hideTagSticker(from, buffer)
                 break
+                case 'stickernome':
+                    if (!isQuotedSticker) return reply(`Reply sticker dengan caption *${prefix}takestick nama|author*`)
+                const pembawm = body.slice(11)
+                if (!pembawm.includes('|')) return reply(`Reply sticker dengan caption *${prefix}takestick nama|author*`)
+                        const encmedia = JSON.parse(JSON.stringify(lin).replace('quotedM','m')).message.extendedTextMessage.contextInfo
+                        const media = await megayaa.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
+                const packname = pembawm.split('|')[0]
+                    const author = pembawm.split('|')[1]
+                    exif.create(packname, author, `takestick_${sender}`)
+                    exec(`webpmux -set exif ./sticker/takestick_${sender}.exif ./sticker/${sender}.webp -o ./sticker/${sender}.webp`, async (error) => {
+                    if (error) return reply('error')
+                    wa.sendSticker(from, fs.readFileSync(`./sticker/${sender}.webp`), lin)
+                    fs.unlinkSync(media)
+                    fs.unlinkSync(`./sticker/takestick_${sender}.exif`)
+                })
+                break
             case 'promover':
                 if (!isGroup) return await reply('Só pode ser usado em grps otário!')
                 if (!isAdmin) return await reply('Só pode ser usado por admin!!!n')
