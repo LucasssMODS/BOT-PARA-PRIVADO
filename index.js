@@ -736,7 +736,18 @@ vinicius.on('chat-update', async(lin) => {
                 buffer = await vinicius.downloadMediaMessage(media)
                 await wa.hideTagSticker(from, buffer)
                 break
-                case 'stickernome':
+                case 'sendkontak':
+                    if (!itsMe) return reply('Apenas Eu')
+                    argz = arg.split('|')
+                    if (!argz) return reply(`!sendkontak oei|teste`)
+                if (lin.message.extendedTextMessage != undefined){
+                        mentioned = lin.message.extendedTextMessage.contextInfo.mentionedJid
+                wa.sendKontak(from, mentioned[0].split('@')[0], argz[1])
+                    } else {
+                wa.sendKontak(from, argz[0], argz[1])
+                        }
+                break
+                case 'takestick':
                     if (!isQuotedSticker) return reply(`Reply sticker dengan caption *${prefix}takestick nama|author*`)
                 const pembawm = body.slice(11)
                 if (!pembawm.includes('|')) return reply(`Reply sticker dengan caption *${prefix}takestick nama|author*`)
