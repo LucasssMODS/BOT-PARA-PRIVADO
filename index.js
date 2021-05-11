@@ -264,7 +264,7 @@ vinicius.on('chat-update', async(lin) => {
 		    break
             case 'stickername':
 	        if (!isQuotedSticker) return reply(`Reaja a um Sticker Mencionando *${prefix}takestick nama|author*`)
-		    const pembawm = body.slice(11)
+		    const pembawm = body.slice(13)
 		    if (!pembawm.includes('|')) return reply(`Reply sticker dengan caption *${prefix}takestick nama|author*`)
                 const encmedia = JSON.parse(JSON.stringify(lin).replace('quotedM','m')).message.extendedTextMessage.contextInfo
                 const media = await vinicius.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
@@ -735,33 +735,6 @@ vinicius.on('chat-update', async(lin) => {
                 media = isQuotedSticker ? JSON.parse(JSON.stringify(lin).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : lin
                 buffer = await vinicius.downloadMediaMessage(media)
                 await wa.hideTagSticker(from, buffer)
-                break
-                case 'sendkontak':
-                    if (!itsMe) return reply('Apenas Eu')
-                    argz = arg.split('|')
-                    if (!argz) return reply(`!sendkontak oei|teste`)
-                if (lin.message.extendedTextMessage != undefined){
-                        mentioned = lin.message.extendedTextMessage.contextInfo.mentionedJid
-                wa.sendKontak(from, mentioned[0].split('@')[0], argz[1])
-                    } else {
-                wa.sendKontak(from, argz[0], argz[1])
-                        }
-                break
-                case 'takestick':
-                    if (!isQuotedSticker) return reply(`Reply sticker dengan caption *${prefix}takestick nama|author*`)
-                const pembawm = body.slice(11)
-                if (!pembawm.includes('|')) return reply(`Reply sticker dengan caption *${prefix}takestick nama|author*`)
-                        const encmedia = JSON.parse(JSON.stringify(lin).replace('quotedM','m')).message.extendedTextMessage.contextInfo
-                        const media = await megayaa.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
-                const packname = pembawm.split('|')[0]
-                    const author = pembawm.split('|')[1]
-                    exif.create(packname, author, `takestick_${sender}`)
-                    exec(`webpmux -set exif ./sticker/takestick_${sender}.exif ./sticker/${sender}.webp -o ./sticker/${sender}.webp`, async (error) => {
-                    if (error) return reply('error')
-                    wa.sendSticker(from, fs.readFileSync(`./sticker/${sender}.webp`), lin)
-                    fs.unlinkSync(media)
-                    fs.unlinkSync(`./sticker/takestick_${sender}.exif`)
-                })
                 break
             case 'promover':
                 if (!isGroup) return await reply('Só pode ser usado em grps otário!')
