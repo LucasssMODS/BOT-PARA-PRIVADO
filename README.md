@@ -3,7 +3,7 @@
 
 # Instalação
 
-## Mo Termux
+##  No Termux
 ```cmd
 > pkg install git
 > pkg install nodejs
