@@ -8,7 +8,7 @@
 > pkg install git
 > pkg install nodejs
 > git clone https://github.com/LucasssMODS/BOT-PARA-PRIVADO
-> cd selfbot
+> cd BOT-PARA-PRIVADO
 > bash install.sh ou npm i
 > npm start
 ```
@@ -20,7 +20,7 @@
 * [`Download Git`](https://git-scm.com/downloads)
 ```cmd
 > git clone https://github.com/LucasssMODS/BOT-PARA-PRIVADO
-> cd selfbot
+> cd BOT-PARA-PRIVADO
 > npm i
 > npm start
 > Escaneie o Código
