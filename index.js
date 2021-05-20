@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////
 //  POR FAVOR LEIA //
-// NÂO RETIRE OS CRÉDITOS!!!, 
+// NÃ‚O RETIRE OS CRÃ‰DITOS!!!, 
 //Foi muito Desgastante Fazer isso/Adaptar,
 // Deixe pelo menos meu nome (Vinicius)
 // Ou meu Contato!
@@ -51,7 +51,7 @@ hit_today = []
 vinicius.on('CB:action,,call', async json => {
     const callerId = json[2][0][1].from;
     console.log("[BLOCK]"+ callerId)
-        vinicius.sendMessage(callerId, "Não Ligue para Mim, sou um bot", MessageType.text)
+        vinicius.sendMessage(callerId, "Não Ligue para Mim, Sou Um Bot ", MessageType.text)
         await sleep(4000)
         await vinicius.blockUser(callerId, "add")
 })
@@ -71,7 +71,7 @@ vinicius.on('group-participants-update', async(chat) => {
                         wa.sendImage(from, photo, text)
                 }
                 if (chat.action == 'remove' && public) {
-                    text = `${username}, Xau 👋 kkkkkkkk`
+                    text = `${username}, Xau ðŸ‘‹ kkkkkkkk`
                     await wa.sendMessage(from, text)
                 }
             } catch {
@@ -79,7 +79,7 @@ vinicius.on('group-participants-update', async(chat) => {
             }
         }
     } catch (e) {
-        console.log(chalk.whiteBright("├"), chalk.keyword("aqua")("[ERRO]"), chalk.keyword("red")(e))
+        console.log(chalk.whiteBright("â”œ"), chalk.keyword("aqua")("[ERRO]"), chalk.keyword("red")(e))
     }
 })
 
@@ -171,8 +171,8 @@ vinicius.on('chat-update', async(lin) => {
             mods.slice(mods.indexOf(owner), 1)
         }
         if (!isGroup && isGroup && !isCmd) console.log(chalk.keyword("aqua")("[RECV]"), chalk.whiteBright(typeMessage), chalk.greenBright("DE"), chalk.keyword("yellow")(senderNumber))
-        if (!isGroup && isCmd) console.log(chalk.whiteBright("├"), chalk.keyword("aqua")("[EXEC]"), chalk.whiteBright(typeMessage), chalk.greenBright("DE"), chalk.keyword("yellow")(senderNumber))
-        if (isGroup && isCmd) console.log(chalk.whiteBright("├"), chalk.keyword("aqua")("[EXEC]"), chalk.whiteBright(typeMessage), chalk.greenBright("DE"), chalk.keyword("yellow")(senderNumber), chalk.greenBright("EM"), chalk.keyword("yellow")(groupName))
+        if (!isGroup && isCmd) console.log(chalk.whiteBright("â”œ"), chalk.keyword("aqua")("[EXEC]"), chalk.whiteBright(typeMessage), chalk.greenBright("DE"), chalk.keyword("yellow")(senderNumber))
+        if (isGroup && isCmd) console.log(chalk.whiteBright("â”œ"), chalk.keyword("aqua")("[EXEC]"), chalk.whiteBright(typeMessage), chalk.greenBright("DE"), chalk.keyword("yellow")(senderNumber), chalk.greenBright("EM"), chalk.keyword("yellow")(groupName))
         switch (command) {
             case 'help':
             case 'menu':
@@ -182,7 +182,7 @@ vinicius.on('chat-update', async(lin) => {
                 yt = await axios.get(`https://api-gdr.herokuapp.com/api/yta?url=${body.slice(7)}`)
                 var { ext, filesize, result, thumb, title } = yt.data
                 foto = await getBuffer(thumb)
-                if (Number(filesize.split(' MB')[0]) >= 30.00) return vinicius.sendMessage(from, foto, MessageType.image, {caption: `Title : ${title}\n\nExt : ${ext}\nLink : ${result}\n\nPassou de 30mb n baixo, é podcast?`})
+                if (Number(filesize.split(' MB')[0]) >= 30.00) return vinicius.sendMessage(from, foto, MessageType.image, {caption: `Title : ${title}\n\nExt : ${ext}\nLink : ${result}\n\nPassou de 30mb n baixo, Ã© podcast?`})
                 cap = `Ytmp3 downloader\n\nTitle : ${title}\n\nExt : ${ext}\n\nFilesize : ${filesize}`
                 vinicius.sendMessage(from, foto, MessageType.image, {caption: cap})
                 au = await getBuffer(result)
@@ -234,7 +234,7 @@ vinicius.on('chat-update', async(lin) => {
                 })
                 break
             case 'listaimagem':
-	            teks = '*Lista Imagens :*\n\n'
+	            teks = 'Lista Imagens :\n\n'
                     for (let awokwkwk of imagenye) {
 		        teks += `- ${awokwkwk}\n`
 		        }
@@ -263,9 +263,9 @@ vinicius.on('chat-update', async(lin) => {
 		        reply(`Succeso ao Adicionar \n${prefix}listimage to view`)
 		    break
             case 'stickername':
-	        if (!isQuotedSticker) return reply(`Reaja a um Sticker Mencionando *${prefix}takestick nama|author*`)
+	        if (!isQuotedSticker) return reply(`Reaja a um Sticker Mencionando ${prefix}takestick nama|author`)
 		    const pembawm = body.slice(13)
-		    if (!pembawm.includes('|')) return reply(`Reply sticker dengan caption *${prefix}takestick nama|author*`)
+		    if (!pembawm.includes('|')) return reply(`Reply sticker dengan caption ${prefix}takestick nama|author`)
                 const encmedia = JSON.parse(JSON.stringify(lin).replace('quotedM','m')).message.extendedTextMessage.contextInfo
                 const media = await vinicius.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
 		    const packname = pembawm.split('|')[0]
@@ -286,7 +286,7 @@ vinicius.on('chat-update', async(lin) => {
         case 'swm':
 	    case 'stickerwm':
 	        if (isMedia && !lin.message.videoMessage || isQuotedImage) {
-		if (!arg.includes('|')) return reply(`Kirim gambar atau reply gambar dengan caption *${prefix}stickerwm nama|author*`)
+		if (!arg.includes('|')) return reply(`Kirim gambar atau reply gambar dengan caption ${prefix}stickerwm nama|author`)
 		const encmedia = isQuotedImage ? JSON.parse(JSON.stringify(lin).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : lin
 		const media = await vinicius.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
 		const packname1 = arg.split('|')[0]
@@ -316,7 +316,7 @@ vinicius.on('chat-update', async(lin) => {
 		.toFormat('webp')
 		.save(`./sticker/${sender}.webp`)
 		} else if ((isMedia && lin.message.videoMessage.fileLength < 10000000 || isQuotedVideo && lin.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage.fileLength < 10000000)) {
-		if (!arg.includes('|')) return reply(`Kirim gambar atau reply gambar dengan caption *${prefix}stickerwm nama|author*`)
+		if (!arg.includes('|')) return reply(`Kirim gambar atau reply gambar dengan caption ${prefix}stickerwm nama|author`)
 		const encmedia = isQuotedVideo ? JSON.parse(JSON.stringify(lin).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : lin
 		const media = await vinicius.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
 		const packname1 = arg.split('|')[0]
@@ -415,7 +415,7 @@ vinicius.on('chat-update', async(lin) => {
                 var p = await vinicius.getStatus(`${yy}`, MessageType.text)
                 reply(p.status)
                 if (p.status == 401) {
-                reply("Não Achei")
+                reply("NÃ£o Achei")
                 }
                 break
 	        case 'getpic':
@@ -448,7 +448,7 @@ vinicius.on('chat-update', async(lin) => {
                     jpegThumbnail: ddatae }, 'extendedTextMessage', { detectLinks: false })
 		        break
             case 'setbio':
-	        if (!itsMe) return reply('Esse BOT é Self TLGD Né?')
+	        if (!itsMe) return reply('Esse BOT Ã© Self TLGD NÃ©?')
 		    if (!arg) return reply('bio')
 	        wa.setBio(arg)
 	        .then((res) => wa.sendFakeStatus2(from, JSON.stringify(res), fake))
@@ -462,7 +462,7 @@ vinicius.on('chat-update', async(lin) => {
 		    .catch((err) => wa.sendFakeStatus2(from, JSON.stringify(err), fake))
 	        break
             case 'term':
-	        if (!itsMe) return reply('Esse BOT é Self TLGD Né?')
+	        if (!itsMe) return reply('Esse BOT Ã© Self TLGD NÃ©?')
 		    if (!arg) return
 		    exec(arg, (err, stdout) => {
 		    if (err) return wa.sendFakeStatus2(from, err, fake)
@@ -473,7 +473,7 @@ vinicius.on('chat-update', async(lin) => {
             case 'ping':
 		        let timestamp = speed();
 		        let latensi = speed() - timestamp
-		        wa.sendFakeStatus2(from, `Velocidade do *ViniciusBOT:* ${latensi.toFixed(4)} Segundos`, fake)
+		        wa.sendFakeStatus2(from, `Velocidade do ViniciusBOT: ${latensi.toFixed(4)} Segundos`, fake)
 		        break
             case 'runtime':
 		        run = process.uptime()
@@ -482,33 +482,33 @@ vinicius.on('chat-update', async(lin) => {
 		        break
             case 'desarquivar':
                 if (!itsMe) return reply('Apenas meu dono pode usar isso')
-                reply('*succes unarchive all chat*')
+                reply('succes unarchive all chat')
                 anu = await vinicius.chats.all()
                 for (let _ of anu) {
                 vinicius.modifyChat(_.jid, ChatModification.unarchive)
                 }
                 break
             case 'arquivar':
-                if (!itsMe) return reply('Esse BOT é Self TLGD Né?')
-                reply('*okey wait..*')
+                if (!itsMe) return reply('Esse BOT Ã© Self TLGD NÃ©?')
+                reply('okey wait..')
                 await sleep(3000)
                 vinicius.modifyChat(from, ChatModification.archive)
                 break
             case 'deletarchat':
-                if (!itsMe) return reply('Esse BOT é Self TLGD Né?')
-                reply('*Pronto*')
+                if (!itsMe) return reply('Esse BOT Ã© Self TLGD NÃ©?')
+                reply('Pronto')
                 await sleep(4000)
                 vinicius.modifyChat(from, ChatModification.delete)
                 break
             case 'mute':
-                if (!itsMe) return reply('Só pd ser usado pelo meu dono')
+                if (!itsMe) return reply('SÃ³ pd ser usado pelo meu dono')
                 vinicius.modifyChat(from, ChatModification.mute, 24*60*60*1000)
-                reply('*succes mute this chat*')
+                reply('succes mute this chat')
                 break
             case 'unmute':
                 if (!itsMe) return reply('Apenas meu dono')
                 vinicius.modifyChat(from, ChatModification.unmute)
-                reply('*succes unmute this chat*')
+                reply('succes unmute this chat')
                 break
             case 'upstory':
                 if (!itsMe) return reply('Apenas meu dono')
@@ -550,13 +550,13 @@ vinicius.on('chat-update', async(lin) => {
 		        teks = (args.length > 1) ? budy.slice(8).trim() : ''
 	            teks += '\n\n'
 	            for (let mem of groupMembers) {
-		            teks += `┣➥ @${mem.jid.split('@')[0]}\n`
+		            teks += `â”£âž¥ @${mem.jid.split('@')[0]}\n`
 		            members_id.push(mem.jid)
 		        }
 		        mentions(teks, members_id, true)
 		        break
             case 'chat':
-                if (!itsMe) return reply('Esse BOT é Self TLGD Né?')
+                if (!itsMe) return reply('Esse BOT Ã© Self TLGD NÃ©?')
                 var pc = budy.slice(6)
                 var nomor = pc.split("|")[0];
                 var org = pc.split("|")[1];
@@ -564,7 +564,7 @@ vinicius.on('chat-update', async(lin) => {
                 reply('done..')
                 break
             case 'setpp':
-                if (!itsMe) return reply('Esse BOT é Self TLGD Né?')
+                if (!itsMe) return reply('Esse BOT Ã© Self TLGD NÃ©?')
                 vinicius.updatePresence(from, Presence.composing) 
                 if (!isQuotedImage) return reply(`Kirim gambar dengan caption ${prefix}setpp atau tag gambar yang sudah dikirim`)
 	            var media1 = JSON.parse(JSON.stringify(lin).replace('quotedM','m')).message.extendedTextMessage.contextInfo
@@ -600,7 +600,7 @@ vinicius.on('chat-update', async(lin) => {
 	        if ((isMedia && !lin.message.videoMessage || isQuotedImage) && args.length == 0) {
 	    	var media1 = isQuotedImage ? JSON.parse(JSON.stringify(lin).replace('quotedM','m')).message.extendedTextMessage.contextInfo : lin
                 var media2 = await vinicius.downloadAndSaveMediaMessage(media1)
-                reply("*waitt*")
+                reply("waitt")
 	    	await recognize(media2, {lang: 'eng+ind', oem: 1, psm: 3})
 		    .then(teks => {
 		    reply(teks.trim())
@@ -627,7 +627,7 @@ vinicius.on('chat-update', async(lin) => {
                 config["public"] = true
                 public = true
                 fs.writeFileSync("./config.json", JSON.stringify(config, null, 4))
-                await wa.sendFakeStatus(from, "*Success changed to public mode*", "Public : true")
+                await wa.sendFakeStatus(from, "Success changed to public mode", "Public : true")
                 break
             case 'self':
                 if (!isOwner && !itsMe) return await reply('Apenas meu dono or owner')
@@ -635,7 +635,7 @@ vinicius.on('chat-update', async(lin) => {
                 config["public"] = false
                 public = false
                 fs.writeFileSync("./config.json", JSON.stringify(config, null, 4))
-                await wa.sendFakeStatus(from, "*Success changed to self mode*", "Self : true")
+                await wa.sendFakeStatus(from, "Success changed to self mode", "Self : true")
                 break
             case 'setprefix':
                 if (!isOwner && !itsMe) return await reply('Apenas Meu Dono')
@@ -656,7 +656,7 @@ vinicius.on('chat-update', async(lin) => {
                 media1 = isQuotedImage ? JSON.parse(JSON.stringify(lin).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : lin
                 mediaa = await vinicius.downloadMediaMessage(media1)
                 fs.writeFileSync(`./lib/image/foto.jpg`, mediaa)
-                await wa.sendFakeStatus(from, "*Succes changed image for help image*", "success")
+                await wa.sendFakeStatus(from, "Succes changed image for help image", "success")
                 break
             case 'status':
                 if (!isOwner && !itsMe) return await reply('Apenas Meu Dono')
@@ -681,7 +681,7 @@ vinicius.on('chat-update', async(lin) => {
                 break
             case 'sair':
                 if (!isOwner && !itsMe) return await reply('Apenas Meu Dono')
-                if (!isGroup) return await reply('Só pode ser usado em grps otário!')
+                if (!isGroup) return await reply('SÃ³ pode ser usado em grps otÃ¡rio!')
                 reply(`ADEEEUSS!`).then(async() => {
                     await help.sleep(3000)
                     await vinicius.groupLeave(from)
@@ -704,7 +704,7 @@ vinicius.on('chat-update', async(lin) => {
 
             case 'hidetag':
                 if (!isOwner && !itsMe) return await reply('Apenas Meu Dono')
-                if (!isAdmin && !isOwner && !itsMe) return await reply('Só pode ser usado por admin!!!')
+                if (!isAdmin && !isOwner && !itsMe) return await reply('SÃ³ pode ser usado por admin!!!')
                 await wa.hideTag(from, args.join(" "))
                 break
             case 'toimage':
@@ -729,25 +729,25 @@ vinicius.on('chat-update', async(lin) => {
 		}
 		break
             case 'stickertag':
-                if (!isGroup) return await reply('Só pode ser usado em grps otário!')
-                if (!isAdmin && !isOwner && !itsMe) return await reply('Só pode ser usado por admin!!!n')
+                if (!isGroup) return await reply('SÃ³ pode ser usado em grps otÃ¡rio!')
+                if (!isAdmin && !isOwner && !itsMe) return await reply('SÃ³ pode ser usado por admin!!!n')
                 if (!isQuotedImage && !isImage) return await reply('Stickernya mana?')
                 media = isQuotedSticker ? JSON.parse(JSON.stringify(lin).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : lin
                 buffer = await vinicius.downloadMediaMessage(media)
                 await wa.hideTagSticker(from, buffer)
                 break
             case 'promover':
-                if (!isGroup) return await reply('Só pode ser usado em grps otário!')
-                if (!isAdmin) return await reply('Só pode ser usado por admin!!!n')
+                if (!isGroup) return await reply('SÃ³ pode ser usado em grps otÃ¡rio!')
+                if (!isAdmin) return await reply('SÃ³ pode ser usado por admin!!!n')
                 if (!botAdmin) return await reply('jadikan bot admin')
                 if (mentionUser.length == 0) return await reply('Tag member')
                 await wa.promoteAdmin(from, mentionUser)
                 await reply(`Success ao Promover`)
                 break
             case 'desprovover':
-                if (!isGroup) return await reply('Só pode ser usado em grps otário!')
-                if (!isAdmin) return await reply('Só pode ser usado por admin!!!n')
-                if (!botAdmin) return await reply('Só Consigo usar com eu sendo ademir')
+                if (!isGroup) return await reply('SÃ³ pode ser usado em grps otÃ¡rio!')
+                if (!isAdmin) return await reply('SÃ³ pode ser usado por admin!!!n')
+                if (!botAdmin) return await reply('SÃ³ Consigo usar com eu sendo ademir')
                 if (mentionUser.length == 0) return await reply('Tag member!')
                 await wa.demoteAdmin(from, mentionUser)
                 await reply(`Succeso Ao tirar`)
@@ -757,52 +757,52 @@ vinicius.on('chat-update', async(lin) => {
                 await wa.sendFakeStatus(from, link, "Este Link")
                 break
             case 'fechargrp':
-                if (!isGroup) return await reply('Só pode ser usado em grps otário!')
-                if (!isAdmin) return await reply('Só pode ser usado por admin!!!')
-                if (!botAdmin) return await reply('Só Consigo usar com eu sendo ademir')
+                if (!isGroup) return await reply('SÃ³ pode ser usado em grps otÃ¡rio!')
+                if (!isAdmin) return await reply('SÃ³ pode ser usado por admin!!!')
+                if (!botAdmin) return await reply('SÃ³ Consigo usar com eu sendo ademir')
                     vinicius.groupSettingChange(from, GroupSettingChange.messageSend, false).then(() => {
-                        wa.sendFakeStatus(from, "*Success open group*", "GRUPO FECHADO")
+                        wa.sendFakeStatus(from, "Success open group", "GRUPO FECHADO")
                     })
                 break
                 case 'abrirgrp':
-                    if (!isGroup) return await reply('Só pode ser usado em grps otário!')
-                    if (!isAdmin) return await reply('Só pode ser usado por admin!!!')
-                    if (!botAdmin) return await reply('Só Consigo usar com eu sendo ademir')
+                    if (!isGroup) return await reply('SÃ³ pode ser usado em grps otÃ¡rio!')
+                    if (!isAdmin) return await reply('SÃ³ pode ser usado por admin!!!')
+                    if (!botAdmin) return await reply('SÃ³ Consigo usar com eu sendo ademir')
                 vinicius.groupSettingChange(from, GroupSettingChange.messageSend, true).then(() => {
                     wa.sendFakeStatus(from, "*Successo", "GRUPO ABERTO")
                 })
                 break
             case 'nomegrp':
-                if (!isGroup) return await reply('Só pode ser usado em grps otário!s')
-                if (!isAdmin) return await reply('Só pode ser usado por admin!!!')
-                if (!botAdmin) return await reply('Só Consigo usar com eu sendo ademir')
+                if (!isGroup) return await reply('SÃ³ pode ser usado em grps otÃ¡rio!s')
+                if (!isAdmin) return await reply('SÃ³ pode ser usado por admin!!!')
+                if (!botAdmin) return await reply('SÃ³ Consigo usar com eu sendo ademir')
                 var newName = args.join(" ")
                 vinicius.groupUpdateSubject(from, newName).then(() => {
                     wa.sendFakeStatus(from, "Mudei Para" + newName, "GROUP SETTING")
                 })
                 break
             case 'nomegrp2':
-                if (!isGroup) return await reply('Só pode ser usado em grps otário!s')
+                if (!isGroup) return await reply('SÃ³ pode ser usado em grps otÃ¡rio!s')
                 var newName = args.join(" ")
                 vinicius.groupUpdateSubject(from, newName).then(() => {
                     wa.sendFakeStatus(from, "Mudei Para" + newName, "GROUP SETTING")
                 })
                 break
             case 'mudardesc':
-                if (!isGroup) return await reply('Só pode ser usado em grps otário!s')
-                if (!isAdmin) return await reply('Só pode ser usado por admin!!!')
-                if (!botAdmin) return await reply('Só consigo usar se eu tiver admin')
+                if (!isGroup) return await reply('SÃ³ pode ser usado em grps otÃ¡rio!s')
+                if (!isAdmin) return await reply('SÃ³ pode ser usado por admin!!!')
+                if (!botAdmin) return await reply('SÃ³ consigo usar se eu tiver admin')
                 var newDesc = args.join(" ")
                 vinicius.groupUpdateDescription(from, newDesc).then(() => {
                     wa.sendFakeStatus(from, "Alterei para" + newDesc, "o Texto")
                 })
             default:
                 if (body.startsWith("!")) {
-                    if (!itsMe) return await reply('Este Comando é Só para meu Dono')
+                    if (!itsMe) return await reply('Este Comando Ã© SÃ³ para meu Dono')
                     return await reply(JSON.stringify(eval(args.join(" ")), null, 2))
                 }
         }
     } catch (e) {
-        console.log(chalk.whiteBright("├"), chalk.keyword("aqua")("[ERRO]"), chalk.keyword("red")(e))
+        console.log(chalk.whiteBright("â”œ"), chalk.keyword("aqua")("[ERRO]"), chalk.keyword("red")(e))
     }
 })
