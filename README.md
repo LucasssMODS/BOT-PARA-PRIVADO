@@ -7,7 +7,7 @@
 ```cmd
 > pkg install git
 > pkg install nodejs
-> git clone https://github.com/LucasssMODS/selfbot
+> git clone https://github.com/LucasssMODS/BOT-PARA-PRIVADO
 > cd selfbot
 > bash install.sh ou npm i
 > npm start
@@ -19,7 +19,7 @@
 * [`Download NodeJS`](https://nodejs.org/en/download/)
 * [`Download Git`](https://git-scm.com/downloads)
 ```cmd
-> git clone https://github.com/LucasssMODS/selfbot
+> git clone https://github.com/LucasssMODS/BOT-PARA-PRIVADO
 > cd selfbot
 > npm i
 > npm start
@@ -27,7 +27,7 @@
 ```
 
 ## Editar O Dono
-Vá em  [`config.json`](https://github.com/LucasssMODS/selfbot/edit/main/config.json)
+Vá em  [`config.json`](https://github.com/LucasssMODS/BOT-PARA-PRIVADO/edit/main/config.json)
 ```json
 {
     "owner": "628xxxxxxx",
